@@ -14,6 +14,7 @@ __all__ = ['CSequenceMatcher']
 import difflib
 import _cdifflib
 
+
 class CSequenceMatcher(difflib.SequenceMatcher):
     def __init__(self, isjunk=None, a='', b='', autojunk=True):
         """Construct a CSequenceMatcher.
@@ -32,7 +33,7 @@ class CSequenceMatcher(difflib.SequenceMatcher):
 
     def set_seq2(self, b):
         """Same as SequenceMatcher.set_seq2, but uses the c chainb
-        implementation.  
+        implementation.
         """
         if b is self.b and hasattr(self, 'isbjunk'):
             return
@@ -58,9 +59,7 @@ class CSequenceMatcher(difflib.SequenceMatcher):
             return self.matching_blocks
 
         matching_blocks = _cdifflib.matching_blocks(self)
-        matching_blocks.append( (len(self.a), len(self.b), 0) )
-        self.matching_blocks = matching_blocks 
+        matching_blocks.append((len(self.a), len(self.b), 0))
+        self.matching_blocks = matching_blocks
 
         return map(difflib.Match._make, self.matching_blocks)
-    
-
