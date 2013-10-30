@@ -19,3 +19,9 @@ To install:
 
 To test:
  make test
+
+TODO
+----
+
+* Structure more like a proper python module
+* PyPi packaging
