@@ -5,7 +5,7 @@ Python [difflib](http://docs.python.org/2/library/difflib.html) sequence
 matcher reimplemented in C.
 
 Actually only contains reimplemented parts.  Creates a `CSequenceMatcher` type
-which inherets most functions from `difflib`'s `SequenceMatcher`.
+which inherets most functions from `difflib.SequenceMatcher`.
 
 Limitations
 -----------
@@ -13,7 +13,7 @@ Can only work on 2 lists rather than generic sequences.
 
 Usage
 -----
-Can be used just like the `difflib` `SequenceMatcher` as long as you pass lists.  These examples are right out of the [difflib docs](http://docs.python.org/2/library/difflib.html):
+Can be used just like the `difflib.SequenceMatcher` as long as you pass lists.  These examples are right out of the [difflib docs](http://docs.python.org/2/library/difflib.html):
 ```Python
 >>> from cdifflib import CSequenceMatcher
 >>> s = CSequenceMatcher(None, list(' abcd'), list('abcd abcd')
@@ -29,10 +29,14 @@ Match(a=1, b=0, size=4)
 Making
 ------
 To install:
- python setup.py install
+```
+python setup.py install
+```
 
 To test:
- python setup.py test
+```
+python setup.py test
+```
 
 License etc
 -----------
