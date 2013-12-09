@@ -7,6 +7,9 @@ matcher reimplemented in C.
 Actually only contains reimplemented parts.  Creates a `CSequenceMatcher` type
 which inherets most functions from `difflib.SequenceMatcher`.
 
+`cdifflib` is about 4x the speed of the pure python `difflib` when diffing
+large streams.
+
 Limitations
 -----------
 Can only work on 2 lists rather than generic sequences.
