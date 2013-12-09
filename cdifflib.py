@@ -9,7 +9,9 @@ Class CSequenceMatcher:
     implementation is inherited.
 """
 
-__all__ = ['CSequenceMatcher']
+__all__ = ['CSequenceMatcher', '__version__']
+
+__version__ = '1.0.0'
 
 import difflib
 import _cdifflib
