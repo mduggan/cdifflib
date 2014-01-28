@@ -13,17 +13,18 @@ __all__ = ['CSequenceMatcher', '__version__']
 
 __version__ = '1.0.0'
 
-import difflib
+from difflib import SequenceMatcher as _SequenceMatcher
+from difflib import Match as _Match
 import _cdifflib
 
 
-class CSequenceMatcher(difflib.SequenceMatcher):
+class CSequenceMatcher(_SequenceMatcher):
     def __init__(self, isjunk=None, a='', b='', autojunk=True):
         """Construct a CSequenceMatcher.
 
         Simply wraps the difflib.SequenceMatcher.
         """
-        difflib.SequenceMatcher.__init__(self, isjunk, a, b, autojunk)
+        _SequenceMatcher.__init__(self, isjunk, a, b, autojunk)
 
     def find_longest_match(self, alo, ahi, blo, bhi):
         """Find longest matching block in a[alo:ahi] and b[blo:bhi].
@@ -31,7 +32,7 @@ class CSequenceMatcher(difflib.SequenceMatcher):
         Wrapper for the C implementation of this function.
         """
         besti, bestj, bestsize = _cdifflib.find_longest_match(self, alo, ahi, blo, bhi)
-        return difflib.Match(besti, bestj, bestsize)
+        return _Match(besti, bestj, bestsize)
 
     def set_seq2(self, b):
         """Same as SequenceMatcher.set_seq2, but uses the c chainb
@@ -64,4 +65,4 @@ class CSequenceMatcher(difflib.SequenceMatcher):
         matching_blocks.append((len(self.a), len(self.b), 0))
         self.matching_blocks = matching_blocks
 
-        return map(difflib.Match._make, self.matching_blocks)
+        return map(_Match._make, self.matching_blocks)
