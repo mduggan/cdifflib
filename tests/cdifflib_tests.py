@@ -14,20 +14,20 @@ from difflib import SequenceMatcher
 # A function to count lines of difference using a provided SequenceMatcher
 # class.
 #
-def difflinecount(smclass, s1, s2):
-    difflinecount = 0
+def linecount(smclass, s1, s2):
+    linecount = 0
     sm = smclass(None, s1, s2, autojunk=False)
     i = 0
     j = 0
     for ai, bj, n in sm.get_matching_blocks():
-        difflinecount += max(ai-i, bj-j)
+        linecount += max(ai-i, bj-j)
         i, j = ai+n, bj+n
-    return difflinecount
+    return linecount
 
 
 def profile_sequence_matcher(smclass, a, b, n):
     for i in range(0, n):
-        out = difflinecount(smclass, a, b)
+        out = linecount(smclass, a, b)
     print("Diff from %s is %d" % (smclass.__name__, out))
 
 
@@ -60,24 +60,66 @@ class CDiffLibTestCase(unittest.TestCase):
         self.streamb = streamb
 
     def testCDifflibVsDifflibRandom(self):
-        cdiff = difflinecount(CSequenceMatcher, self.streama, self.streamb)
-        diff = difflinecount(SequenceMatcher, self.streama, self.streamb)
+        """Test cdifflib gets same answer as difflib on semi-random sequence of lines"""
+        cdiff = linecount(CSequenceMatcher, self.streama, self.streamb)
+        diff = linecount(SequenceMatcher, self.streama, self.streamb)
         self.assertTrue(cdiff != 0)
         self.assertEqual(cdiff, diff)
 
     def testCDifflibVsDifflibIdentical(self):
-        cdiff = difflinecount(CSequenceMatcher, self.streama, self.streama)
-        self.assertTrue(cdiff == 0)
-        cdiff = difflinecount(CSequenceMatcher, self.streamb, self.streamb)
-        self.assertTrue(cdiff == 0)
+        """Test cdifflib gets 0 difference on the same sequence of lines"""
+        cdiff = linecount(CSequenceMatcher, self.streama, self.streama)
+        self.assertEqual(cdiff, 0)
+        cdiff = linecount(CSequenceMatcher, self.streamb, self.streamb)
+        self.assertEqual(cdiff, 0)
+
+    def testCDifflibWithEmptyInput(self):
+        """Test cdifflib gets correct difference vs empty stream"""
+        cdiff = linecount(CSequenceMatcher, [], [])
+        self.assertEqual(cdiff, 0)
+        cdiff = linecount(CSequenceMatcher, self.streama, [])
+        self.assertEqual(cdiff, len(self.streama))
+        cdiff = linecount(CSequenceMatcher, [], self.streamb)
+        self.assertEqual(cdiff, len(self.streamb))
+
+    def testCDifflibWithBadTypes(self):
+        """Check cdifflib raises the same type complaints as difflib"""
+        self.assertRaises(TypeError, linecount,
+                          CSequenceMatcher, None, self.streamb)
+        self.assertRaises(TypeError, linecount,
+                          SequenceMatcher, None, self.streamb)
+        self.assertRaises(TypeError, linecount,
+                          CSequenceMatcher, self.streama, 1)
+        self.assertRaises(TypeError, linecount,
+                          SequenceMatcher, self.streama, 1)
+
+    def testCDifflibWithNonLists(self):
+        """Check cdifflib handles non-list types the same as difflib"""
+        cdiff = linecount(CSequenceMatcher, "not a list", "also not a list")
+        diff = linecount(SequenceMatcher, "not a list", "also not a list")
+        self.assertEqual(diff, cdiff)
+        self.assertEqual(cdiff, 5)
+
+        def gena():
+            for x in self.streama:
+                yield x
+
+        def genb():
+            for x in self.streamb:
+                yield x
+
+        cdiff = linecount(CSequenceMatcher, gena(), genb())
+        # actually difflib doesn't handle generators, just check cdiff result.
+        self.assertGreater(cdiff, 0)
 
 
 def main():
     from optparse import OptionParser
     import time
 
-    parser = OptionParser(description="Test the C version of difflib. Either specify files, or "
-                          "leave empty for auto-generated random lines",
+    parser = OptionParser(description="Test the C version of difflib. Either "
+                          "specify files, or leave empty for auto-generated "
+                          "random lines",
                           usage="Usage: %prog [options] [file1 file2]")
     parser.add_option("-n", "--niter", dest="niter", type="int",
                       help="num of iterations (default=%default)", default=1)
