@@ -34,6 +34,15 @@ class CSequenceMatcher(_SequenceMatcher):
         besti, bestj, bestsize = _cdifflib.find_longest_match(self, alo, ahi, blo, bhi)
         return _Match(besti, bestj, bestsize)
 
+    def set_seq1(self, a):
+        """Same as SequenceMatcher.set_seq1, but check for non-list inputs
+        implementation."""
+        if a is self.a:
+            return
+        self.a = a
+        if not isinstance(self.a, list):
+            self.a = list(self.a)
+
     def set_seq2(self, b):
         """Same as SequenceMatcher.set_seq2, but uses the c chainb
         implementation.
