@@ -12,19 +12,22 @@ large streams.
 
 Limitations
 -----------
-Can only work on 2 lists rather than generic sequences.
+The C part of the code can only work on `list` rather than generic iterables,
+so anything that isn't a `list` will be converted to `list` in the
+`CSequenceMatcher` constructor.  This may cause undesirable behavior if you're
+not expecting it.
 
 Usage
 -----
 Can be used just like the `difflib.SequenceMatcher` as long as you pass lists.  These examples are right out of the [difflib docs](http://docs.python.org/2/library/difflib.html):
 ```Python
 >>> from cdifflib import CSequenceMatcher
->>> s = CSequenceMatcher(None, list(' abcd'), list('abcd abcd')
+>>> s = CSequenceMatcher(None, ' abcd', 'abcd abcd')
 >>> s.find_longest_match(0, 5, 0, 9)
 Match(a=1, b=0, size=4)
 >>> s = CSequenceMatcher(lambda x: x == " ",
-...                      list("private Thread currentThread;"),
-...                      list("private volatile Thread currentThread;"))
+...                      "private Thread currentThread;",
+...                      "private volatile Thread currentThread;")
 >>> print round(s.ratio(), 3)
 0.866
 ```
