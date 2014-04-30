@@ -15,7 +15,7 @@ list_items_eq(PyObject *a, int ai, PyObject *b, int bi)
 //
 // A simple wrapper to call a callable python object with an argument and
 // return the result as a boolean.
-// 
+//
 static inline int
 call_obj(PyObject *callable, PyObject *arg)
 {
@@ -28,18 +28,18 @@ call_obj(PyObject *callable, PyObject *arg)
     return retval;
 }
 
-static void 
+static void
 _find_longest_match_worker(
-    PyObject *self, 
-    PyObject *a, 
-    PyObject *b, 
-    PyObject *isbjunk, 
-    const int alo, 
-    const int ahi, 
-    const int blo, 
-    const int bhi, 
-    long *_besti, 
-    long *_bestj, 
+    PyObject *self,
+    PyObject *a,
+    PyObject *b,
+    PyObject *isbjunk,
+    const int alo,
+    const int ahi,
+    const int blo,
+    const int bhi,
+    long *_besti,
+    long *_bestj,
     long *_bestsize
 )
 {
@@ -71,8 +71,8 @@ _find_longest_match_worker(
         // their values inside the same loop.  It should be faster using a
         // simpler data structure to do the same thing, but I rewrote it
         // with a c++ unordered_map<int,int> and it was half the speed :(
-        // 
-        for (i = alo; i < ahi; i++) 
+        //
+        for (i = alo; i < ahi; i++)
         {
             PyObject *tmp;
             PyObject *oj = PyDict_GetItem(b2j, PyList_GET_ITEM(a, i));
@@ -136,8 +136,8 @@ _find_longest_match_worker(
     }
 
     //printf("twiddle values %d %d %d %d %d %d\n", besti, alo, ahi, bestj, blo, bhi);
-    while (besti > alo && bestj > blo && 
-            !call_obj(isbjunk, PyList_GET_ITEM(b, bestj-1)) && 
+    while (besti > alo && bestj > blo &&
+            !call_obj(isbjunk, PyList_GET_ITEM(b, bestj-1)) &&
             list_items_eq(a, besti-1, b, bestj-1))
     {
         besti--;
@@ -146,8 +146,8 @@ _find_longest_match_worker(
     }
 
     //printf("twiddle values 2\n");
-    while (besti+bestsize < ahi && bestj+bestsize < bhi && 
-            !call_obj(isbjunk, PyList_GET_ITEM(b, bestj+bestsize)) && 
+    while (besti+bestsize < ahi && bestj+bestsize < bhi &&
+            !call_obj(isbjunk, PyList_GET_ITEM(b, bestj+bestsize)) &&
             list_items_eq(a, besti+bestsize, b, bestj+bestsize))
     {
         bestsize++;
@@ -155,8 +155,8 @@ _find_longest_match_worker(
 
 
     //printf("twiddle values 3\n");
-    while (besti > alo && bestj > blo && 
-            call_obj(isbjunk, PyList_GET_ITEM(b, bestj-1)) && 
+    while (besti > alo && bestj > blo &&
+            call_obj(isbjunk, PyList_GET_ITEM(b, bestj-1)) &&
             list_items_eq(a, besti-1, b, bestj-1))
     {
         besti--;
@@ -165,8 +165,8 @@ _find_longest_match_worker(
     }
 
     //printf("twiddle values 4\n");
-    while (besti+bestsize < ahi && bestj+bestsize < bhi && 
-            call_obj(isbjunk, PyList_GET_ITEM(b, bestj+bestsize)) && 
+    while (besti+bestsize < ahi && bestj+bestsize < bhi &&
+            call_obj(isbjunk, PyList_GET_ITEM(b, bestj+bestsize)) &&
             list_items_eq(a, besti+bestsize, b, bestj+bestsize))
     {
         bestsize++;
@@ -204,11 +204,11 @@ find_longest_match(PyObject *module, PyObject *args)
     /* Slight speedup - if we have no junk, don't bother calling isbjunk lots */
     {
         PyObject *nojunk = PyObject_GetAttrString(self, "_nojunk");
-        if (nojunk && PyObject_IsTrue(nojunk)) 
+        if (nojunk && PyObject_IsTrue(nojunk))
         {
             isbjunk = NULL;
         }
-        else 
+        else
         {
             PyErr_Clear();
             isbjunk = PyObject_GetAttrString(self, "isbjunk");
@@ -291,11 +291,11 @@ matching_blocks(PyObject *module, PyObject *args)
     /* Slight speedup - if we have no junk, don't bother calling isbjunk lots */
     {
         PyObject *nojunk = PyObject_GetAttrString(self, "_nojunk");
-        if (nojunk && PyObject_IsTrue(nojunk)) 
+        if (nojunk && PyObject_IsTrue(nojunk))
         {
             isbjunk = NULL;
         }
-        else 
+        else
         {
             PyErr_Clear();
             isbjunk = PyObject_GetAttrString(self, "isbjunk");
@@ -359,19 +359,19 @@ chain_b(PyObject *module, PyObject *args)
     fast_b = PySequence_Fast(b, "accessing sequence 2");
     Py_DECREF(b);
     n = PySequence_Fast_GET_SIZE(fast_b);
-    for (i = 0; i < n; i++) 
+    for (i = 0; i < n; i++)
     {
         PyObject *iint;
-        PyObject *indices; 
+        PyObject *indices;
         PyObject *elt = PySequence_Fast_GET_ITEM(fast_b, i);
         assert(elt && elt != Py_None);
-        indices = PyDict_GetItem(b2j, elt); 
+        indices = PyDict_GetItem(b2j, elt);
         assert(indices == NULL || indices != Py_None);
-        if (indices == NULL) 
+        if (indices == NULL)
         {
-            if (PyErr_Occurred())  
+            if (PyErr_Occurred())
             {
-                if (!PyErr_ExceptionMatches(PyExc_KeyError)) 
+                if (!PyErr_ExceptionMatches(PyExc_KeyError))
                 {
                     Py_DECREF(fast_b);
                     goto error;
@@ -431,7 +431,7 @@ chain_b(PyObject *module, PyObject *args)
 
             assert(PyList_Check(idxs));
 
-            if (PyList_GET_SIZE(idxs) > ntest) 
+            if (PyList_GET_SIZE(idxs) > ntest)
             {
                 PySet_Add(popular, elt);
                 PyDict_DelItem(b2j, elt);
@@ -454,7 +454,7 @@ error:
 
 //
 // Define functions in this module
-// 
+//
 static PyMethodDef CDiffLibMethods[] = {
     {"find_longest_match", find_longest_match, METH_VARARGS,
         "c implementation of difflib.SequenceMatcher.find_longest_match"},
