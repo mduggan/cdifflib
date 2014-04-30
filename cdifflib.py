@@ -42,6 +42,9 @@ class CSequenceMatcher(_SequenceMatcher):
         self.a = a
         if not isinstance(self.a, list):
             self.a = list(self.a)
+        # Types must be hashable to work in the c layer.  This will raise if
+        # list items are *not* hashable.
+        [hash(x) for x in self.a]
 
     def set_seq2(self, b):
         """Same as SequenceMatcher.set_seq2, but uses the c chainb
@@ -54,6 +57,12 @@ class CSequenceMatcher(_SequenceMatcher):
             self.a = list(self.a)
         if not isinstance(self.b, list):
             self.b = list(self.b)
+
+        # Types must be hashable to work in the c layer.  This check lines will
+        # raise the correct error if they are *not* hashable.
+        [hash(x) for x in self.a]
+        [hash(x) for x in self.b]
+
         self.matching_blocks = self.opcodes = None
         self.fullbcount = None
         junk, popular = _cdifflib.chain_b(self)

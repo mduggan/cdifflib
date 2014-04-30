@@ -92,6 +92,10 @@ class CDiffLibTestCase(unittest.TestCase):
                           CSequenceMatcher, self.streama, 1)
         self.assertRaises(TypeError, linecount,
                           SequenceMatcher, self.streama, 1)
+        self.assertRaises(TypeError, linecount,
+                          SequenceMatcher, self.streama, [{}, {}])
+        self.assertRaises(TypeError, linecount,
+                          SequenceMatcher, [set([])], [1])
 
     def testCDifflibWithNonLists(self):
         """Check cdifflib handles non-list types the same as difflib"""
