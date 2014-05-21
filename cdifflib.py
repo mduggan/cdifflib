@@ -13,6 +13,7 @@ __all__ = ['CSequenceMatcher', '__version__']
 
 __version__ = '1.0.0'
 
+import sys
 from difflib import SequenceMatcher as _SequenceMatcher
 from difflib import Match as _Match
 import _cdifflib
@@ -24,7 +25,11 @@ class CSequenceMatcher(_SequenceMatcher):
 
         Simply wraps the difflib.SequenceMatcher.
         """
-        _SequenceMatcher.__init__(self, isjunk, a, b, autojunk)
+        if sys.version_info[0] == 2 and sys.version_info[1] < 7:
+            # No autojunk in Python 2.6 and lower
+            _SequenceMatcher.__init__(self, isjunk, a, b)
+        else:
+            _SequenceMatcher.__init__(self, isjunk, a, b, autojunk)
 
     def find_longest_match(self, alo, ahi, blo, bhi):
         """Find longest matching block in a[alo:ahi] and b[blo:bhi].

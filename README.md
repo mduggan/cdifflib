@@ -17,6 +17,8 @@ so anything that isn't a `list` will be converted to `list` in the
 `CSequenceMatcher` constructor.  This may cause undesirable behavior if you're
 not expecting it.
 
+The C extension only works with Python 2.7 at the moment.
+
 Usage
 -----
 Can be used just like the `difflib.SequenceMatcher` as long as you pass lists.  These examples are right out of the [difflib docs](http://docs.python.org/2/library/difflib.html):
