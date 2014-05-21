@@ -1,6 +1,7 @@
 cdifflib
 ========
-
+  <img src="https://travis-ci.org/mduggan/cdifflib.svg?branch=master">
+  
 Python [difflib](http://docs.python.org/2/library/difflib.html) sequence
 matcher reimplemented in C.
 
