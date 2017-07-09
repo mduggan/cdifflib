@@ -1,6 +1,10 @@
 language: python
+sudo: false
 python:
   - 2.7
+os:
+  - linux
+#  - osx  # Unfortunately Py2.7 seems broken on travis as of 2017-07
 install:
   - python setup.py install
 script:

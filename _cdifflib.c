@@ -3,7 +3,7 @@
 //
 // A simple wrapper to see if two Python list entries are "Python equal".
 //
-static inline int
+inline int
 list_items_eq(PyObject *a, int ai, PyObject *b, int bi)
 {
     PyObject *o1 = PyList_GET_ITEM(a, ai);
@@ -16,7 +16,7 @@ list_items_eq(PyObject *a, int ai, PyObject *b, int bi)
 // A simple wrapper to call a callable python object with an argument and
 // return the result as a boolean.
 //
-static inline int
+inline int
 call_obj(PyObject *callable, PyObject *arg)
 {
     if (!callable)
@@ -455,7 +455,7 @@ error:
 //
 // Define functions in this module
 //
-static PyMethodDef CDiffLibMethods[] = {
+static PyMethodDef CDiffLibMethods[4] = {
     {"find_longest_match", find_longest_match, METH_VARARGS,
         "c implementation of difflib.SequenceMatcher.find_longest_match"},
     {"chain_b", chain_b, METH_VARARGS,
