@@ -1,7 +1,7 @@
 cdifflib
 ========
-  <img src="https://travis-ci.org/mduggan/cdifflib.svg?branch=master">
-  
+  [<img src="https://travis-ci.org/mduggan/cdifflib.svg?branch=master">](https://travis-ci.org/mduggan/cdifflib/)
+
 Python [difflib](http://docs.python.org/2/library/difflib.html) sequence
 matcher reimplemented in C.
 
@@ -35,6 +35,20 @@ Match(a=1, b=0, size=4)
 0.866
 ```
 
+It's completely compatible, so you can replace the difflib version on startup
+and then other libraries will use CSequenceMatcher too, eg:
+```Python
+from cdifflib import CSequenceMatcher
+import difflib
+difflib.SequenceMatcher = CSequenceMatcher
+import library_that_uses_difflib
+
+# Now the library will transparantely be using the C SequenceMatcher - other
+# things remain the same
+library_that_uses_difflib.do_some_diffing()
+```
+
+
 Making
 ------
 To install:
@@ -50,3 +64,11 @@ python setup.py test
 License etc
 -----------
 This code lives at https://github.com/mduggan.  See LICENSE for the license.
+
+
+Changelog
+---------
+* 1.0.3 - Changes to make it compile on MSVC++ compiler, no change for other platforms
+* 1.0.2 - Bugfix - also replace set_seq1 implementation so `difflib.compare` works with a `CSequenceMatcher`
+* 1.0.1 - Implement more bits in c to squeeze a bit more speed out
+* 1.0.0 - First release
