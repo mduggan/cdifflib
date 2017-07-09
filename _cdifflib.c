@@ -3,7 +3,7 @@
 //
 // A simple wrapper to see if two Python list entries are "Python equal".
 //
-inline int
+static __inline int
 list_items_eq(PyObject *a, int ai, PyObject *b, int bi)
 {
     PyObject *o1 = PyList_GET_ITEM(a, ai);
@@ -16,14 +16,16 @@ list_items_eq(PyObject *a, int ai, PyObject *b, int bi)
 // A simple wrapper to call a callable python object with an argument and
 // return the result as a boolean.
 //
-inline int
+static __inline int
 call_obj(PyObject *callable, PyObject *arg)
 {
+    PyObject *result;
+    int retval;
     if (!callable)
         return 0;
     assert(PyCallable_Check(callable));
-    PyObject *result = PyObject_CallFunctionObjArgs(callable, arg, NULL);
-    int retval = PyObject_IsTrue(result);
+    result = PyObject_CallFunctionObjArgs(callable, arg, NULL);
+    retval = PyObject_IsTrue(result);
     Py_DECREF(result);
     return retval;
 }
@@ -397,8 +399,9 @@ chain_b(PyObject *module, PyObject *args)
     if (isjunk != NULL && isjunk != Py_None)
     {
         PyObject *keys = PyDict_Keys(b2j);
+        PyObject *fastkeys;
         assert(PySequence_Check(keys));
-        PyObject *fastkeys = PySequence_Fast(keys, "dict keys");
+        fastkeys = PySequence_Fast(keys, "dict keys");
         Py_DECREF(keys);
         /* call isjunk here */
         for (i = 0; i < PySequence_Fast_GET_SIZE(fastkeys); i++)
