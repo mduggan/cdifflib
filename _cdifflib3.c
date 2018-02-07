@@ -94,21 +94,21 @@ _find_longest_match_worker(
 
                     jint = PyList_GET_ITEM(oj, oji);
                     assert(PyInt_CheckExact(jint));
-                    j = (int)PyInt_AS_LONG(jint);
+                    j = (int)PyLong_AsLong(jint);
 
                     if (j < blo)
                         continue;
                     if (j >= bhi)
                         break;
 
-                    jminus1 = PyInt_FromLong(j-1);
+                    jminus1 = PyLong_FromLong(j-1);
                     j2len_j = PyDict_GetItem(j2len, jminus1);
                     Py_DECREF(jminus1);
                     if (j2len_j)
-                        k += (int)PyInt_AS_LONG(j2len_j);
+                        k += (int)PyLong_AsLong(j2len_j);
 
                     // this looks like an allocation, but k is usually low
-                    kint = PyInt_FromLong(k);
+                    kint = PyLong_FromLong(k);
                     PyDict_SetItem(newj2len, jint, kint);
                     Py_DECREF(kint);
 
@@ -385,7 +385,7 @@ chain_b(PyObject *module, PyObject *args)
             PyDict_SetItem(b2j, elt, indices);
             Py_DECREF(indices);
         }
-        iint = PyInt_FromLong(i);
+        iint = PyLong_FromLong(i);
         PyList_Append(indices, iint);
         Py_DECREF(iint);
     }
@@ -458,6 +458,7 @@ error:
 //
 // Define functions in this module
 //
+
 static PyMethodDef CDiffLibMethods[4] = {
     {"find_longest_match", find_longest_match, METH_VARARGS,
         "c implementation of difflib.SequenceMatcher.find_longest_match"},
@@ -468,16 +469,17 @@ static PyMethodDef CDiffLibMethods[4] = {
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
-//
-// Module init entrypoint.
-//
-PyMODINIT_FUNC
-init_cdifflib(void)
-{
-    PyObject *m;
+static struct PyModuleDef _cdifflib = {
+    PyModuleDef_HEAD_INIT,
+    "_cdifflib",
+    "C Implementation of Python3's difflib",
+    -1,
+    CDiffLibMethods
+};
 
-    m = Py_InitModule("_cdifflib", CDiffLibMethods);
-    if (m == NULL)
-        return;
-    // No special initialisation to do at the moment..
+// Init module
+
+PyMODINIT_FUNC PyInit__cdifflib()
+{
+    return PyModule_Create(&_cdifflib);
 }

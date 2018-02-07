@@ -1,5 +1,3 @@
-#! /usr/bin/python2.7
-
 """
 Module cdifflib -- c implementation of difflib.
 
