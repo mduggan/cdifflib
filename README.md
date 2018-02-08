@@ -68,6 +68,7 @@ This code lives at https://github.com/mduggan.  See LICENSE for the license.
 
 Changelog
 ---------
+* 1.1.0 - Added Python 3.6 support (thanks Bclavie)
 * 1.0.4 - Changes to make it compile on MSVC++ compiler, no change for other platforms
 * 1.0.2 - Bugfix - also replace set_seq1 implementation so `difflib.compare` works with a `CSequenceMatcher`
 * 1.0.1 - Implement more bits in c to squeeze a bit more speed out
