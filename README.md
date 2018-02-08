@@ -18,7 +18,7 @@ so anything that isn't a `list` will be converted to `list` in the
 `CSequenceMatcher` constructor.  This may cause undesirable behavior if you're
 not expecting it.
 
-Works with Python 2.7 and 3.6 (Untested on other 3.x versions)
+Works with Python 2.7 and 3.6 (Should work on all 3.3+)
 
 Usage
 -----
