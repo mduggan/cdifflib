@@ -1,4 +1,4 @@
 """
 Tests directory.
 """
-import cdifflib_tests
+from . import cdifflib_tests
