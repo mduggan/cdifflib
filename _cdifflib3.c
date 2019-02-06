@@ -1,5 +1,7 @@
 #include <Python.h>
 
+#if PY_MAJOR_VERSION == 3
+
 //
 // A simple wrapper to see if two Python list entries are "Python equal".
 //
@@ -483,3 +485,5 @@ PyMODINIT_FUNC PyInit__cdifflib()
 {
     return PyModule_Create(&_cdifflib);
 }
+
+#endif // PY_MAJOR_VERSION == 3

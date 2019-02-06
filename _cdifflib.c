@@ -1,5 +1,7 @@
 #include <Python.h>
 
+#if PY_MAJOR_VERSION == 2
+
 //
 // A simple wrapper to see if two Python list entries are "Python equal".
 //
@@ -481,3 +483,5 @@ init_cdifflib(void)
         return;
     // No special initialisation to do at the moment..
 }
+
+#endif // PY_MAJOR_VERSION == 2

@@ -1,17 +1,12 @@
 from setuptools import setup, Extension
-import sys
 
-if sys.version_info >= (3, 0):
-    module1 = [Extension('_cdifflib',
-                        sources=['_cdifflib3.c'])]
-else:
-    module1 = [Extension('_cdifflib',
-                        sources=['_cdifflib.c'])]
+module = [Extension('_cdifflib',
+                    sources=['_cdifflib.c', '_cdifflib3.c'])]
 
 setup(name='cdifflib',
-      version='1.1.0',
+      version='1.2.0',
       description='C implementation of parts of difflib',
-      ext_modules=module1,
+      ext_modules=module,
       py_modules=['cdifflib'],
       test_suite='tests',
 
