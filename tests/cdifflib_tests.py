@@ -116,6 +116,16 @@ class CDiffLibTestCase(unittest.TestCase):
         # actually difflib doesn't handle generators, just check cdiff result.
         self.assertGreater(cdiff, 0)
 
+    def testCDifflibWithBug5Data(self):
+        from . import testdata
+        sm = SequenceMatcher(None, testdata.a5, testdata.b5)
+        difflib_matches = sm.get_matching_blocks()
+
+        sm = CSequenceMatcher(None, testdata.a5, testdata.b5)
+        cdifflib_matches = list(sm.get_matching_blocks())
+
+        self.assertEquals(difflib_matches, cdifflib_matches)
+
 
 def main():
     from optparse import OptionParser
