@@ -4,7 +4,7 @@ module = [Extension('_cdifflib',
                     sources=['_cdifflib.c', '_cdifflib3.c'])]
 
 setup(name='cdifflib',
-      version='1.2.0',
+      version='1.2.1',
       description='C implementation of parts of difflib',
       ext_modules=module,
       py_modules=['cdifflib'],
