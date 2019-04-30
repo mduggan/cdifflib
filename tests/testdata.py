@@ -1,3 +1,8 @@
+"""
+Test data from bug https://github.com/mduggan/cdifflib/issues/5
+
+Revealed some bugs with autojunk handling
+"""
 a5 = [
     12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
     12, 124, 16, 12, 12, 12, 108, 588, 1316, 12, 8, 42, 6, 168, 36, 12, 10, 10,

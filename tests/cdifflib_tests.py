@@ -117,6 +117,8 @@ class CDiffLibTestCase(unittest.TestCase):
         self.assertGreater(cdiff, 0)
 
     def testCDifflibWithBug5Data(self):
+        """Check cdifflib returns the same result for bug #5
+           (autojunk handling issues)"""
         from . import testdata
         sm = SequenceMatcher(None, testdata.a5, testdata.b5)
         difflib_matches = sm.get_matching_blocks()
