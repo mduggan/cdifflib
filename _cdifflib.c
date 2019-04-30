@@ -129,9 +129,12 @@ _find_longest_match_worker(
             PyDict_Clear(newj2len);
         }
 
-        /* besti and bestj are offset by 1 */
-        besti++;
-        bestj++;
+        /* besti and bestj are offset by 1 if set in the loop above */
+        if (bestsize)
+        {
+            besti++;
+            bestj++;
+        }
 
         /* Done with these now. */
         Py_DECREF(j2len);
@@ -424,7 +427,7 @@ chain_b(PyObject *module, PyObject *args)
     popular = PySet_New(NULL);
     autojunk = PyObject_GetAttrString(self, "autojunk");
     assert(autojunk != NULL);
-    if (PyObject_IsTrue(autojunk) && n > 200) {
+    if (PyObject_IsTrue(autojunk) && n >= 200) {
         long ntest = n/100 + 1;
         PyObject *items = PyDict_Items(b2j);
         long b2jlen = PyList_GET_SIZE(items);
