@@ -17,13 +17,13 @@ clean:
 	rm -f tests/*.pyc
 
 upload:
-	python setup.py sdist upload
-	python setup.py bdist upload
-	python setup.py bdist_egg upload
-	python setup.py bdist_wheel upload
-	python3.4 setup.py bdist_egg upload
-	python3.4 setup.py bdist_wheel upload
-	python3.6 setup.py bdist_egg upload
-	python3.6 setup.py bdist_wheel upload
-	python3.7 setup.py bdist_egg upload
-	python3.7 setup.py bdist_wheel upload
+	python setup.py sdist
+	python setup.py bdist_egg
+	python setup.py bdist_wheel
+	python3.4 setup.py bdist_egg
+	python3.4 setup.py bdist_wheel
+	python3.6 setup.py bdist_egg
+	python3.6 setup.py bdist_wheel
+	python3.7 setup.py bdist_egg
+	python3.7 setup.py bdist_wheel
+	twine upload dist/*
