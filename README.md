@@ -68,6 +68,7 @@ This code lives at https://github.com/mduggan.  See LICENSE for the license.
 
 Changelog
 ---------
+* 1.2.5 - Fix some memory leaks (#7)
 * 1.2.4 - Repackage yet again using twine for pypi upload (no binary changes)
 * 1.2.3 - Repackage again with changelog update and corrected src package (no binary changes)
 * 1.2.2 - Repackage to add README.md in a way pypi supports (no binary changes)
