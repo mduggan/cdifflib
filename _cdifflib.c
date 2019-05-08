@@ -334,10 +334,12 @@ matching_blocks(PyObject *module, PyObject *args)
     matching_block_helper(self, a, b, isbjunk, matching, 0, la, 0, lb);
 
     //printf("matching_blocks 4\n");
+    if (isbjunk)
+        Py_DECREF(isbjunk);
     Py_DECREF(a);
     Py_DECREF(b);
-
-    return Py_BuildValue("O", matching);
+    // don't decrement matching, put it straight in to the return val
+    return Py_BuildValue("N", matching);
 }
 
 
@@ -346,8 +348,12 @@ chain_b(PyObject *module, PyObject *args)
 {
     long n;
     Py_ssize_t i;
-    PyObject *self, *b, *isjunk, *junk, *popular, *fast_b, *autojunk, *retval;
-    PyObject *b2j = NULL;
+
+    // These are temporary and are decremented after use
+    PyObject *b, *isjunk, *fast_b, *self;
+
+    // These are needed through the function and are decremented at the end
+    PyObject *junk = NULL, *popular = NULL, *b2j = NULL, *retval = NULL, *autojunk = NULL;
 
     //printf("chain_b\n");
 
@@ -448,16 +454,19 @@ chain_b(PyObject *module, PyObject *args)
         Py_DECREF(items);
     }
 
-    Py_DECREF(b2j);
-
     retval = Py_BuildValue("OO", junk, popular);
     assert(!PyErr_Occurred());
-    return retval;
 
 error:
     if (b2j)
         Py_DECREF(b2j);
-    return NULL;
+    if (junk)
+        Py_DECREF(junk);
+    if (popular)
+        Py_DECREF(popular);
+    if (autojunk)
+        Py_DECREF(autojunk);
+    return retval;
 }
 
 //
