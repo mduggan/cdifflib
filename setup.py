@@ -7,7 +7,7 @@ with open('README.md') as f:
     long_description = f.read()
 
 setup(name='cdifflib',
-      version='1.2.4',
+      version='1.2.5',
       description='C implementation of parts of difflib',
       long_description=long_description,
       long_description_content_type='text/markdown',
