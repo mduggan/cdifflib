@@ -53,6 +53,10 @@ def generate_similar_streams(nlines, ndiffs):
 
 
 class CDiffLibTestCase(unittest.TestCase):
+    def assertNearlyEqual(self, x, y):
+        """Simple test to make sure floats are close"""
+        self.assertTrue(abs(x - y) < 1e-5)
+
     def setUp(self):
         random.seed(1234)
         streama, streamb = generate_similar_streams(2000, 200)
@@ -130,6 +134,11 @@ class CDiffLibTestCase(unittest.TestCase):
 
         self.assertEqual(difflib_matches, cdifflib_matches)
 
+    def testSeq1ResetsCorrectly(self):
+        s = CSequenceMatcher(None, "abcd", "bcde")
+        self.assertNearlyEqual(s.ratio(), 0.75);
+        s.set_seq1("bcde")
+        self.assertNearlyEqual(s.ratio(), 1.0);
 
 def main():
     from optparse import OptionParser
