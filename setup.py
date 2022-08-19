@@ -7,7 +7,7 @@ with open('README.md') as f:
     long_description = f.read()
 
 setup(name='cdifflib',
-      version='1.2.5',
+      version='1.2.6',
       description='C implementation of parts of difflib',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -22,7 +22,7 @@ setup(name='cdifflib',
       keywords="difflib c diff",
 
       classifiers=[
-          'Development Status :: 4 - Beta',
+          'Development Status :: 5 - Production/Stable',
           'Environment :: Console',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: BSD License',
