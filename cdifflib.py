@@ -7,9 +7,9 @@ Class CSequenceMatcher:
     implementation is inherited.
 """
 
-__all__ = ['CSequenceMatcher', '__version__']
+__all__ = ["CSequenceMatcher", "__version__"]
 
-__version__ = '1.2.5'
+__version__ = "1.2.6"
 
 import sys
 from difflib import SequenceMatcher as _SequenceMatcher
@@ -18,7 +18,7 @@ import _cdifflib
 
 
 class CSequenceMatcher(_SequenceMatcher):
-    def __init__(self, isjunk=None, a='', b='', autojunk=True):
+    def __init__(self, isjunk=None, a="", b="", autojunk=True):
         """Construct a CSequenceMatcher.
 
         Simply wraps the difflib.SequenceMatcher.
@@ -54,7 +54,7 @@ class CSequenceMatcher(_SequenceMatcher):
         """Same as SequenceMatcher.set_seq2, but uses the c chainb
         implementation.
         """
-        if b is self.b and hasattr(self, 'isbjunk'):
+        if b is self.b and hasattr(self, "isbjunk"):
             return
         self.b = b
         if not isinstance(self.a, list):
@@ -70,8 +70,8 @@ class CSequenceMatcher(_SequenceMatcher):
         self.matching_blocks = self.opcodes = None
         self.fullbcount = None
         junk, popular = _cdifflib.chain_b(self)
-        assert hasattr(junk, '__contains__')
-        assert hasattr(popular, '__contains__')
+        assert hasattr(junk, "__contains__")
+        assert hasattr(popular, "__contains__")
         self.isbjunk = junk.__contains__
         self.isbpopular = popular.__contains__
         # We use this to speed up find_longest_match a smidge
