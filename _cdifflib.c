@@ -236,6 +236,16 @@ find_longest_match(PyObject *module, PyObject *args)
     if (!PyList_Check(a) || !PyList_Check(b))
         return NULL;
 
+    if (alo < 0 || ahi < 0 || alo > PyList_GET_SIZE(a) || ahi > PyList_GET_SIZE(a) ||
+        blo < 0 || bhi < 0 || blo > PyList_GET_SIZE(b) || bhi > PyList_GET_SIZE(b)) {
+        PyErr_SetString(PyExc_IndexError, "list index out of range");
+        Py_DECREF(a);
+        Py_DECREF(b);
+        if (isbjunk)
+            Py_DECREF(isbjunk);
+        return NULL;
+    }
+
     // This function actually does the work, the rest is just window dressing.
     _find_longest_match_worker(self, a, b, isbjunk, alo, ahi, blo, bhi, &besti, &bestj, &bestsize);
 
